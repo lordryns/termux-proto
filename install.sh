@@ -14,7 +14,9 @@ sleep 1
 clear
 
 echo "installing python..."
-pkg install python
+pkg install python -y
+
+pip install questionary
 
 sleep 1
 clear
