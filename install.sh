@@ -18,7 +18,7 @@ clear
 echo "installing python..."
 pkg install python git -y
 
-pip install questionary
+pip install questionary rich
 
 sleep 1
 clear
