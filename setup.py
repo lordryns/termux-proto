@@ -3,13 +3,20 @@ import os
 import time
 import questionary
 from rich.console import Console
+from dataclasses import dataclass
 
+@dataclass(slots=True)
+class Setup:
+    username: str
+    c_compiler: str
+    text_editor: str
+    languages: list[str]
+
+setup = Setup("", "")
 
 def clear():
     subprocess.run("clear")
 
-NAME = None
-PASSWORD = None 
 
 console = Console()
 
@@ -26,43 +33,31 @@ def get_user_name() -> str:
 
 
 
-def get_password() -> str:
-    password = ""
-    tries = 1
-    
-    while True:
-        password = questionary.password("set password:").ask()
-        if len(password) > 4:
-            break
+def get_c_compiler() -> str:
+    choice = questionary.select("Select preferred C compiler",
+                       ["clang", "gcc"])
 
-        console.print("[red]Password is too short!")
+    return choice.ask()
 
 
-    while True:
-        confirm_password = questionary.password("confirm password:").ask()
-        if confirm_password == password:
-            break
+def get_text_editor() -> str:
+    choice = questionary.select("Select preferred text editor",
+                       ["vim", "kakoune", "helix", "neovim"])
 
-        console.print(f"[red]Password does not match, tries: {tries}/3")    
-        tries += 1
+    return choice.ask()
 
-        if tries > 3:
-            break
-
-    if tries > 3:
-        clear()
-        return get_password()
-
-    return password
 
 def main():
-    global NAME, PASSWORD
-
-    NAME = get_user_name()
-    PASSWORD = get_password()
+    setup.username = get_user_name()
 
     time.sleep(1)
     clear()
+
+    setup.c_compiler = get_c_compiler()
+    setup.text_editor = get_text_editor()
+
+    print(f"name: {setup.username}\npreferred compiler: {setup.c_compiler}")
+
 
 
 if __name__ == '__main__':
