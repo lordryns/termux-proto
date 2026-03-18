@@ -4,6 +4,8 @@ set -e
 
 clear
 
+echo "Welcome to termux-proto!"
+sleep 1
 echo "Updating repo"
 
 export DEBIAN_FRONTEND=noninteractive
