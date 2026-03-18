@@ -14,12 +14,17 @@ sleep 1
 clear
 
 echo "installing python..."
-pkg install python -y
+pkg install python git -y
 
 pip install questionary
 
 sleep 1
 clear
+
+if [ ! -d ".git" ]; then
+  git clone https://github.com/lordryns/termux-proto.git
+  cd termux-proto
+fi
 
 echo "Running setup script..."
 python setup.py
